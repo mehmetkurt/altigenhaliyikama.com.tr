@@ -1,0 +1,122 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { SITE, getWhatsAppUrl } from '@config/site';
+import {
+  getAllBlogPosts,
+  getServiceBySlug,
+  type BlogEntry,
+} from '@services/content';
+import { buildArticleSchema, buildBreadcrumbSchema } from '@utils/schema';
+
+export async function getStaticPaths() {
+  const posts = await getAllBlogPosts();
+  return posts.map((post) => ({
+    params: { slug: post.data.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: BlogEntry;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const relatedService = post.data.relatedServiceSlug
+  ? await getServiceBySlug(post.data.relatedServiceSlug)
+  : undefined;
+
+const formattedDate = new Date(post.data.publishedAt).toLocaleDateString('tr-TR', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: 'Ana Sayfa', path: '/' },
+  { name: 'Bakım Rehberi', path: '/blog' },
+  { name: post.data.title, path: `/blog/${post.data.slug}` },
+]);
+---
+
+<BaseLayout
+  title={post.data.seoTitle}
+  description={post.data.seoDescription}
+  canonicalPath={`/blog/${post.data.slug}`}
+  ogType="article"
+  schemas={[buildArticleSchema(post.data), breadcrumbSchema]}
+>
+  <article class="section-space">
+    <div class="container-site max-w-3xl space-y-10">
+      <nav aria-label="Sayfa Konumu" class="text-xs text-brand-muted flex flex-wrap items-center gap-2">
+        <a href="/" class="hover:text-brand-ink">Ana Sayfa</a>
+        <span aria-hidden="true">/</span>
+        <a href="/blog" class="hover:text-brand-ink">Bakım Rehberi</a>
+        <span aria-hidden="true">/</span>
+        <span class="text-brand-ink font-medium">{post.data.category}</span>
+      </nav>
+
+      <header class="space-y-4 pb-6 border-b border-brand-stone">
+        <div class="flex flex-wrap items-center gap-3 text-xs font-medium text-brand-muted">
+          <span class="font-semibold text-brand-teal">{post.data.category}</span>
+          <span aria-hidden="true">•</span>
+          <time datetime={post.data.publishedAt}>{formattedDate}</time>
+          <span aria-hidden="true">•</span>
+          <span>{post.data.readingMinutes} dk okuma</span>
+        </div>
+
+        <h1 class="text-2xl sm:text-4xl font-bold leading-tight">
+          {post.data.title}
+        </h1>
+
+        <p class="text-base sm:text-lg text-brand-slate leading-relaxed">
+          {post.data.excerpt}
+        </p>
+      </header>
+
+      <div class="prose-article">
+        <Content />
+      </div>
+
+      {relatedService && (
+        <aside class="rounded-2xl bg-brand-sand border border-brand-stone p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+          <div class="space-y-1.5">
+            <p class="text-xs font-semibold uppercase tracking-[0.14em] text-brand-teal">
+              İlgili Hizmet
+            </p>
+            <h2 class="text-lg font-bold text-brand-ink">
+              {relatedService.title}
+            </h2>
+            <p class="text-sm text-brand-slate max-w-md">
+              {relatedService.shortDescription}
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-3 shrink-0">
+            <a href={`/hizmetler/${relatedService.slug}`} class="btn-secondary">
+              Hizmeti İncele
+            </a>
+            <a
+              href={getWhatsAppUrl(`Merhaba, ${relatedService.title} için randevu almak istiyorum.`)}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-primary"
+            >
+              WhatsApp Randevu
+            </a>
+          </div>
+        </aside>
+      )}
+
+      <div class="pt-4 border-t border-brand-stone flex items-center justify-between text-sm">
+        <a href="/blog" class="font-semibold text-brand-teal hover:text-brand-teal-dark">
+          ← Tüm Rehberlere Dön
+        </a>
+        <a href="/iletisim" class="font-medium text-brand-slate hover:text-brand-ink">
+          Servis Randevusu Al ({SITE.contact.phoneDisplay})
+        </a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

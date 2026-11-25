@@ -1,0 +1,88 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { SITE } from '@config/site';
+import { getAllRegions } from '@services/content';
+import { buildBreadcrumbSchema } from '@utils/schema';
+
+const regions = await getAllRegions();
+
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: 'Ana Sayfa', path: '/' },
+  { name: 'Hizmet Bölgeleri', path: '/bolgeler' },
+]);
+---
+
+<BaseLayout
+  title={`Hizmet Bölgelerimiz | ${SITE.name}`}
+  description="Altıgen Halı Yıkama ücretsiz servis araçlarının hizmet verdiği bölgeler ve mahalleler."
+  canonicalPath="/bolgeler"
+  schemas={[breadcrumbSchema]}
+>
+  <section class="bg-brand-sand/70 border-b border-brand-stone/80 py-12 md:py-16">
+    <div class="container-site max-w-5xl space-y-4">
+      <nav aria-label="Sayfa Konumu" class="text-xs text-brand-muted flex items-center gap-2">
+        <a href="/" class="hover:text-brand-ink">Ana Sayfa</a>
+        <span aria-hidden="true">/</span>
+        <span class="text-brand-ink font-medium">Hizmet Bölgeleri</span>
+      </nav>
+      <p class="text-xs font-semibold uppercase tracking-[0.14em] text-brand-teal">
+        Ücretsiz Servis Ağı
+      </p>
+      <h1 class="text-3xl sm:text-4xl font-bold leading-tight">
+        Hizmet Verdiğimiz Bölgeler
+      </h1>
+      <p class="text-base sm:text-lg text-brand-slate max-w-2xl">
+        Haftanın 6 günü planlı servis rotalarımızla kapınızdan ücretsiz alım ve
+        teslimat yapıyoruz.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-space">
+    <div class="container-site max-w-5xl space-y-8">
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+        {regions.map((region) => (
+          <article class="surface-card p-6 space-y-4">
+            <div class="space-y-1">
+              <p class="text-xs font-medium text-brand-muted">{region.city}</p>
+              <h2 class="text-xl font-bold text-brand-ink">
+                <a
+                  href={`/bolgeler/${region.slug}`}
+                  class="hover:text-brand-teal transition-colors"
+                >
+                  {region.name} Halı Yıkama
+                </a>
+              </h2>
+            </div>
+
+            <p class="text-sm text-brand-slate leading-relaxed">
+              {region.summary}
+            </p>
+
+            <p class="text-xs font-medium text-brand-teal bg-brand-teal-tint inline-block px-3 py-1.5 rounded-lg">
+              {region.deliveryInfo}
+            </p>
+
+            <div class="pt-2 flex flex-wrap gap-1.5">
+              {region.neighborhoods.map((neighborhood) => (
+                <span class="rounded-md border border-brand-stone bg-brand-paper px-2.5 py-1 text-xs text-brand-slate">
+                  {neighborhood}
+                </span>
+              ))}
+            </div>
+
+            <div class="pt-3 border-t border-brand-stone/80">
+              <a
+                href={`/bolgeler/${region.slug}`}
+                class="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-teal hover:text-brand-teal-dark"
+              >
+                <span>Bölge Detayını Gör</span>
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

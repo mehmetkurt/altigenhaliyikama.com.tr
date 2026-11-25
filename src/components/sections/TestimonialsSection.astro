@@ -1,0 +1,54 @@
+---
+import type { TestimonialItem } from '@services/content';
+
+export interface Props {
+  testimonials: TestimonialItem[];
+  heading?: string;
+  subheading?: string;
+}
+
+const {
+  testimonials,
+  heading = 'Müşterilerimizin değerlendirmeleri',
+  subheading = 'Hizmet kalitemizi en iyi anlatan ölçüt, halılarını düzenli olarak bize emanet eden ailelerin geri bildirimleridir.',
+} = Astro.props;
+---
+
+<section class="section-space">
+  <div class="container-site">
+    <div class="max-w-2xl space-y-2 mb-10">
+      <p class="text-xs font-semibold uppercase tracking-[0.14em] text-brand-teal">
+        Müşteri Memnuniyeti
+      </p>
+      <h2 class="text-2xl sm:text-3xl font-bold">{heading}</h2>
+      <p class="text-brand-slate text-base">{subheading}</p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+      {testimonials.map((item) => (
+        <figure class="surface-card p-6 flex flex-col justify-between gap-6">
+          <div class="space-y-3">
+            <div class="flex items-center gap-1 text-brand-warm" aria-label={`${item.rating} üzerinden 5 puan`}>
+              {Array.from({ length: item.rating }).map(() => (
+                <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              ))}
+            </div>
+            <blockquote class="text-sm sm:text-base text-brand-ink leading-relaxed">
+              “{item.comment}”
+            </blockquote>
+          </div>
+
+          <figcaption class="pt-4 border-t border-brand-stone/80 flex items-center justify-between gap-2 text-xs">
+            <div>
+              <p class="font-semibold text-brand-ink">{item.author}</p>
+              <p class="text-brand-muted">{item.serviceName}</p>
+            </div>
+            <span class="text-brand-muted shrink-0">{item.district}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>

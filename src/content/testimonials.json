@@ -1,0 +1,32 @@
+[
+  {
+    "id": "yorum-1",
+    "author": "Selin K.",
+    "district": "Merkez Bölgesi",
+    "serviceName": "Profesyonel Halı Yıkama",
+    "rating": 5,
+    "comment": "İki yün ve bir makine halımızı verdik. Söylenen günde, hiç deterjan kokusu kalmadan yumuşacık ve poşetlenmiş olarak teslim edildi.",
+    "dateText": "Yakın Tarihli Değerlendirme",
+    "order": 1
+  },
+  {
+    "id": "yorum-2",
+    "author": "Murat D.",
+    "district": "Merkez Bölgesi",
+    "serviceName": "Yerinde Koltuk Yıkama",
+    "rating": 5,
+    "comment": "Açık renk keten köşe koltuğumuzdaki kahve lekeleri tamamen çıktı. Akşama kadar neredeyse tamamen kurumuştu, ekip çok özenliydi.",
+    "dateText": "Yakın Tarihli Değerlendirme",
+    "order": 2
+  },
+  {
+    "id": "yorum-3",
+    "author": "Ayşe T.",
+    "district": "Merkez Bölgesi",
+    "serviceName": "Stor ve Zebra Perde Yıkama",
+    "rating": 5,
+    "comment": "Mutfak ve salon storlarını kendileri söküp 2 gün sonra tertemiz geri taktılar. Mekanizmalarda ve kumaş sertliğinde hiçbir bozulma olmadı.",
+    "dateText": "Yakın Tarihli Değerlendirme",
+    "order": 3
+  }
+]

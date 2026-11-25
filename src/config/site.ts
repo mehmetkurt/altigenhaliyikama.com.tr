@@ -44,10 +44,12 @@ export const SITE = {
   },
 
   nav: [
-    { label: 'Hizmetler', href: '/#hizmetler' },
-    { label: 'Yıkama Süreci', href: '/#surec' },
-    { label: 'Hizmet Bölgeleri', href: '/#bolgeler' },
-    { label: 'Sıkça Sorulanlar', href: '/#sss' },
+    { label: 'Hizmetler', href: '/hizmetler' },
+    { label: 'Fiyatlar', href: '/fiyatlar' },
+    { label: 'Bölgeler', href: '/bolgeler' },
+    { label: 'Rehber', href: '/blog' },
+    { label: 'Hakkımızda', href: '/hakkimizda' },
+    { label: 'İletişim', href: '/iletisim' },
   ] as readonly NavItem[],
 
   social: {

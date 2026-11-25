@@ -41,19 +41,44 @@ const currentYear = new Date().getFullYear();
               </a>
             </li>
           ))}
+          <li>
+            <a href="/fiyatlar" class="hover:text-white transition-colors">
+              Fiyat Listesi ve Hesaplayıcı
+            </a>
+          </li>
         </ul>
       </div>
 
       <div class="md:col-span-2 space-y-3">
         <h2 class="font-display text-sm font-semibold uppercase tracking-wider text-white">
-          Bölgeler
+          Kurumsal
         </h2>
         <ul class="space-y-2.5 text-sm">
-          {regions.map((region) => (
+          <li>
+            <a href="/hakkimizda" class="hover:text-white transition-colors">
+              Hakkımızda
+            </a>
+          </li>
+          <li>
+            <a href="/bolgeler" class="hover:text-white transition-colors">
+              Hizmet Bölgeleri
+            </a>
+          </li>
+          <li>
+            <a href="/blog" class="hover:text-white transition-colors">
+              Bakım Rehberi
+            </a>
+          </li>
+          <li>
+            <a href="/iletisim" class="hover:text-white transition-colors">
+              İletişim & Randevu
+            </a>
+          </li>
+          {regions.slice(0, 2).map((region) => (
             <li>
               <a
                 href={`/bolgeler/${region.slug}`}
-                class="hover:text-white transition-colors"
+                class="text-slate-400 hover:text-white transition-colors"
               >
                 {region.name}
               </a>

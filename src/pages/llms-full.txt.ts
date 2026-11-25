@@ -1,19 +1,23 @@
 import type { APIRoute } from 'astro';
 import { SITE } from '@config/site';
-import { getAllFaqs, getAllRegions, getAllServices } from '@services/content';
+import {
+  getAllBlogPosts,
+  getAllFaqs,
+  getAllPricing,
+  getAllRegions,
+  getAllServices,
+} from '@services/content';
 
 /**
  * Genişletilmiş /llms-full.txt uç noktası
- *
- * Yapay zeka arama motorlarının (ChatGPT Search, Perplexity, Claude, Gemini)
- * Altıgen Halı Yıkama hizmetlerini, süreçlerini ve sık sorulan sorularını
- * eksiksiz ve yapılandırılmış Markdown formatında okuması için üretilir.
  */
 export const GET: APIRoute = async () => {
-  const [services, regions, faqs] = await Promise.all([
+  const [services, regions, pricing, faqs, posts] = await Promise.all([
     getAllServices(),
     getAllRegions(),
+    getAllPricing(),
     getAllFaqs(),
+    getAllBlogPosts(),
   ]);
 
   const sections: string[] = [
@@ -45,6 +49,13 @@ export const GET: APIRoute = async () => {
       ...service.processSteps.map((step, idx) => `  ${idx + 1}. ${step}`),
       '',
     ]),
+    '## Güncel Fiyat Listesi (Tahmini / Başlangıç)',
+    '',
+    ...pricing.map(
+      (item) =>
+        `- **${item.name}** (${item.categoryLabel}): ${item.price} TL / ${item.unitLabel} — ${item.note}`
+    ),
+    '',
     '## Hizmet Bölgeleri',
     '',
     ...regions.flatMap((region) => [
@@ -53,6 +64,15 @@ export const GET: APIRoute = async () => {
       `- Özet: ${region.summary}`,
       `- Servis Bilgisi: ${region.deliveryInfo}`,
       `- Mahalleler: ${region.neighborhoods.join(', ')}`,
+      '',
+    ]),
+    '## Halı ve Tekstil Bakım Rehberleri',
+    '',
+    ...posts.flatMap((post) => [
+      `### ${post.data.title}`,
+      `- URL: ${SITE.url}/blog/${post.data.slug}`,
+      `- Kategori: ${post.data.category} | Yayın Tarihi: ${post.data.publishedAt}`,
+      `- Özet: ${post.data.excerpt}`,
       '',
     ]),
     '## Sıkça Sorulan Sorular',

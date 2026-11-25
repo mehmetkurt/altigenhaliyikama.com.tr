@@ -1,5 +1,11 @@
 import { SITE } from '@config/site';
-import type { FaqItem, RegionItem, ServiceItem } from '@services/content';
+import type {
+  BlogEntry,
+  FaqItem,
+  PricingItem,
+  RegionItem,
+  ServiceItem,
+} from '@services/content';
 
 export type SchemaObject = Record<string, unknown>;
 
@@ -67,6 +73,50 @@ export function buildServiceSchema(service: ServiceItem): SchemaObject {
     areaServed: {
       '@type': 'City',
       name: SITE.contact.address.city,
+    },
+  };
+}
+
+export function buildOfferCatalogSchema(pricing: PricingItem[]): SchemaObject {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'OfferCatalog',
+    name: `${SITE.name} Hizmet Fiyat Listesi`,
+    url: `${SITE.url}/fiyatlar`,
+    itemListElement: pricing.map((item, index) => ({
+      '@type': 'Offer',
+      position: index + 1,
+      name: `${item.name} (${item.unitLabel})`,
+      description: item.note,
+      price: item.price,
+      priceCurrency: 'TRY',
+      offeredBy: {
+        '@id': `${SITE.url}/#business`,
+      },
+    })),
+  };
+}
+
+export function buildArticleSchema(post: BlogEntry['data']): SchemaObject {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt ?? post.publishedAt,
+    inLanguage: 'tr-TR',
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${SITE.url}/blog/${post.slug}`,
+    },
+    author: {
+      '@type': 'Organization',
+      name: SITE.name,
+      url: SITE.url,
+    },
+    publisher: {
+      '@id': `${SITE.url}/#business`,
     },
   };
 }

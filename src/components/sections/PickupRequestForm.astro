@@ -1,0 +1,215 @@
+---
+import { SITE } from '@config/site';
+import type { RegionItem, ServiceItem } from '@services/content';
+
+export interface Props {
+  services: ServiceItem[];
+  regions: RegionItem[];
+}
+
+const { services, regions } = Astro.props;
+---
+
+<section class="surface-card p-6 sm:p-8 space-y-6">
+  <div class="space-y-1.5">
+    <p class="text-xs font-semibold uppercase tracking-[0.14em] text-brand-teal">
+      Ücretsiz Servis Talebi
+    </p>
+    <h2 class="text-xl sm:text-2xl font-bold">
+      Adresten alım randevusu oluşturun
+    </h2>
+    <p class="text-sm text-brand-slate">
+      Bilgilerinizi doldurun; talebiniz düzenli bir özet halinde anında WhatsApp
+      servis hattımıza aktarılsın.
+    </p>
+  </div>
+
+  <form
+    id="pickup-request-form"
+    class="space-y-5"
+    data-whatsapp={SITE.contact.whatsappNumber}
+    data-api-endpoint="/api/order"
+  >
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div class="space-y-1.5">
+        <label for="order-name" class="block text-xs font-semibold text-brand-ink">
+          Adınız Soyadınız *
+        </label>
+        <input
+          id="order-name"
+          name="customerName"
+          type="text"
+          required
+          autocomplete="name"
+          placeholder="Örn. Ayşe Yılmaz"
+          class="form-field"
+        />
+      </div>
+
+      <div class="space-y-1.5">
+        <label for="order-phone" class="block text-xs font-semibold text-brand-ink">
+          Telefon Numaranız *
+        </label>
+        <input
+          id="order-phone"
+          name="phone"
+          type="tel"
+          required
+          autocomplete="tel"
+          placeholder="05XX XXX XX XX"
+          class="form-field"
+        />
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div class="space-y-1.5">
+        <label for="order-district" class="block text-xs font-semibold text-brand-ink">
+          İlçe / Hizmet Bölgesi *
+        </label>
+        <select id="order-district" name="district" required class="form-field">
+          {regions.map((region) => (
+            <option value={region.name}>{region.name} ({region.city})</option>
+          ))}
+          <option value="Diğer Bölge">Diğer Bölge (Bilgi Almak İstiyorum)</option>
+        </select>
+      </div>
+
+      <div class="space-y-1.5">
+        <label for="order-date" class="block text-xs font-semibold text-brand-ink">
+          Tercih Edilen Gün (Opsiyonel)
+        </label>
+        <input
+          id="order-date"
+          name="preferredDate"
+          type="date"
+          class="form-field"
+        />
+      </div>
+    </div>
+
+    <fieldset class="space-y-2">
+      <legend class="text-xs font-semibold text-brand-ink">
+        Talep Ettiğiniz Hizmetler *
+      </legend>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        {services.map((service, index) => (
+          <label class="flex items-center gap-2.5 rounded-lg border border-brand-stone bg-brand-paper px-3.5 py-2.5 text-sm text-brand-ink cursor-pointer hover:border-brand-teal/60">
+            <input
+              type="checkbox"
+              name="services"
+              value={service.title}
+              checked={index === 0}
+              class="h-4 w-4 accent-brand-teal rounded"
+            />
+            <span>{service.title}</span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+
+    <div class="space-y-1.5">
+      <label for="order-address" class="block text-xs font-semibold text-brand-ink">
+        Açık Adres / Mahalle *
+      </label>
+      <textarea
+        id="order-address"
+        name="address"
+        rows="2"
+        required
+        placeholder="Mahalle, sokak ve bina bilgisi"
+        class="form-field !min-h-20 py-2.5"
+      ></textarea>
+    </div>
+
+    <div class="space-y-1.5">
+      <label for="order-notes" class="block text-xs font-semibold text-brand-ink">
+        Ek Not (Tahmini adet, halı türü veya kapı zili notu)
+      </label>
+      <input
+        id="order-notes"
+        name="notes"
+        type="text"
+        placeholder="Örn. 2 adet 6m² makine halısı, 1 adet yün halı"
+        class="form-field"
+      />
+    </div>
+
+    <div
+      id="order-feedback"
+      role="status"
+      aria-live="polite"
+      class="hidden rounded-xl border border-brand-teal/30 bg-brand-teal-tint p-4 text-sm text-brand-ink"
+    ></div>
+
+    <div class="flex flex-col sm:flex-row sm:items-center gap-3 pt-1">
+      <button type="submit" class="btn-primary w-full sm:w-auto">
+        Randevu Talebini Gönder
+      </button>
+      <p class="text-xs text-brand-muted">
+        Ücretsiz servis teyidi için ekibimiz en kısa sürede dönüş yapar.
+      </p>
+    </div>
+  </form>
+</section>
+
+<script is:inline>
+  (() => {
+    const form = document.getElementById('pickup-request-form');
+    const feedback = document.getElementById('order-feedback');
+    if (!(form instanceof HTMLFormElement) || !feedback) return;
+
+    const whatsappNumber = form.getAttribute('data-whatsapp') || '';
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const selectedServices = data.getAll('services').map(String);
+
+      if (selectedServices.length === 0) {
+        feedback.textContent = 'Lütfen en az bir hizmet türü seçin.';
+        feedback.classList.remove('hidden');
+        return;
+      }
+
+      const name = String(data.get('customerName') || '').trim();
+      const phone = String(data.get('phone') || '').trim();
+      const district = String(data.get('district') || '').trim();
+      const address = String(data.get('address') || '').trim();
+      const preferredDate = String(data.get('preferredDate') || '').trim();
+      const notes = String(data.get('notes') || '').trim();
+
+      const lines = [
+        'Yeni Ücretsiz Servis Randevu Talebi (altigenhaliyikama.com.tr)',
+        '',
+        `Ad Soyad: ${name}`,
+        `Telefon: ${phone}`,
+        `Bölge: ${district}`,
+        `Adres: ${address}`,
+        `Hizmetler: ${selectedServices.join(', ')}`,
+      ];
+
+      if (preferredDate) lines.push(`Tercih Edilen Gün: ${preferredDate}`);
+      if (notes) lines.push(`Not: ${notes}`);
+
+      const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join('\n'))}`;
+
+      feedback.innerHTML = '';
+      const msg = document.createElement('p');
+      msg.className = 'font-medium';
+      msg.textContent =
+        'Randevu özetiniz hazırlandı. WhatsApp penceresi açılmadıysa aşağıdaki bağlantıdan gönderebilirsiniz:';
+      const link = document.createElement('a');
+      link.href = waUrl;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.className =
+        'inline-block mt-2 font-semibold text-brand-teal underline';
+      link.textContent = 'WhatsApp ile Talebi Gönder →';
+      feedback.append(msg, link);
+      feedback.classList.remove('hidden');
+
+      window.open(waUrl, '_blank', 'noopener,noreferrer');
+    });
+  })();
+</script>

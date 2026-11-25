@@ -1,0 +1,93 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PriceCalculator from '@components/sections/PriceCalculator.astro';
+import { SITE } from '@config/site';
+import { getAllPricing, type PricingItem } from '@services/content';
+import { buildBreadcrumbSchema, buildOfferCatalogSchema } from '@utils/schema';
+
+const pricing = await getAllPricing();
+
+const grouped = pricing.reduce<Record<string, PricingItem[]>>((acc, item) => {
+  const list = acc[item.categoryLabel] ?? [];
+  list.push(item);
+  acc[item.categoryLabel] = list;
+  return acc;
+}, {});
+
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: 'Ana Sayfa', path: '/' },
+  { name: 'Fiyat Listesi', path: '/fiyatlar' },
+]);
+---
+
+<BaseLayout
+  title={`Halı Yıkama Fiyatları ve Hesaplayıcı | ${SITE.name}`}
+  description="Güncel m² bazlı halı yıkama, koltuk yıkama, stor perde ve yorgan yıkama fiyat listesi ile anlık tahmini tutar hesaplayıcı."
+  canonicalPath="/fiyatlar"
+  schemas={[buildOfferCatalogSchema(pricing), breadcrumbSchema]}
+>
+  <section class="bg-brand-sand/70 border-b border-brand-stone/80 py-12 md:py-16">
+    <div class="container-site max-w-4xl space-y-4">
+      <nav aria-label="Sayfa Konumu" class="text-xs text-brand-muted flex items-center gap-2">
+        <a href="/" class="hover:text-brand-ink">Ana Sayfa</a>
+        <span aria-hidden="true">/</span>
+        <span class="text-brand-ink font-medium">Fiyatlar</span>
+      </nav>
+      <p class="text-xs font-semibold uppercase tracking-[0.14em] text-brand-teal">
+        Şeffaf Fiyatlandırma
+      </p>
+      <h1 class="text-3xl sm:text-4xl font-bold leading-tight">
+        Halı, Koltuk ve Tekstil Yıkama Fiyat Listesi
+      </h1>
+      <p class="text-base sm:text-lg text-brand-slate max-w-2xl">
+        Sürpriz ek ücret olmadan, halı dokusuna ve ölçüsüne göre net fiyatlandırma.
+        Adresten alım ve adrese teslimat tüm bölgelerimizde ücretsizdir.
+      </p>
+    </div>
+  </section>
+
+  <div class="section-space">
+    <div class="container-site max-w-5xl space-y-12">
+      <PriceCalculator items={pricing} />
+
+      <section aria-label="Kategori Bazlı Fiyat Tablosu" class="space-y-8">
+        <div class="space-y-1.5">
+          <h2 class="text-2xl font-bold">Güncel Birim Fiyatlar</h2>
+          <p class="text-sm text-brand-slate">
+            Tüm fiyatlar Türk Lirası (TL) cinsindendir; özel leke ve el dokuma
+            halılarda teslim alım öncesi net bilgilendirme yapılır.
+          </p>
+        </div>
+
+        <div class="space-y-8">
+          {Object.entries(grouped).map(([categoryLabel, items]) => (
+            <div class="surface-card overflow-hidden">
+              <div class="bg-brand-sand/70 border-b border-brand-stone px-6 py-3.5">
+                <h3 class="font-display text-base font-bold text-brand-ink">
+                  {categoryLabel}
+                </h3>
+              </div>
+
+              <div class="divide-y divide-brand-stone/80">
+                {items.map((item) => (
+                  <div class="px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                    <div class="space-y-0.5 max-w-xl">
+                      <p class="font-semibold text-brand-ink">{item.name}</p>
+                      <p class="text-xs sm:text-sm text-brand-slate">{item.note}</p>
+                    </div>
+                    <p class="font-display text-lg font-bold text-brand-teal shrink-0">
+                      {item.price.toLocaleString('tr-TR')} TL
+                      <span class="text-xs font-medium text-brand-muted">
+                        {' '}/ {item.unitLabel}
+                      </span>
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

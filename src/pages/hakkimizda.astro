@@ -1,0 +1,140 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import OptimizedPicture from '@components/ui/OptimizedPicture.astro';
+import TestimonialsSection from '@components/sections/TestimonialsSection.astro';
+import { SITE, getWhatsAppUrl } from '@config/site';
+import { getAllTestimonials } from '@services/content';
+import { buildBreadcrumbSchema } from '@utils/schema';
+
+import aboutStudio from '@assets/images/about-textile-studio.jpg';
+
+const testimonials = await getAllTestimonials();
+const whatsappHref = getWhatsAppUrl();
+
+const standards = [
+  {
+    title: 'Dokuya Özel Ayrıştırma',
+    description:
+      'Yün, el dokuma, bambu ve makine halıları kesinlikle aynı programda yıkanmaz; her halı kendi lif yapısına uygun şampuan ve fırça basıncıyla temizlenir.',
+  },
+  {
+    title: 'Barkodlu Takip Disiplini',
+    description:
+      'Kapınızdan alınan her ürün suya dayanıklı etiketle barkodlanır. Yıkama, kurutma ve ambalajlama boyunca karışma riski tamamen ortadan kalkar.',
+  },
+  {
+    title: 'Kapalı Kurutma Odaları',
+    description:
+      'Açık havada egzoz, polen ve güneş yanığına maruz kalmadan; nem kontrollü kapalı odalarda dört mevsim aynı hijyen standardında kurutulur.',
+  },
+  {
+    title: 'Bitkisel ve Kalıntısız Durulama',
+    description:
+      'Ağır kimyasal ve ağartıcı içermeyen pH dengeli bitkisel ürünlerle yıkanır, bol temiz su ile durulanarak bebekli ve evcil hayvanlı evler için tam güven sağlar.',
+  },
+] as const;
+
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: 'Ana Sayfa', path: '/' },
+  { name: 'Hakkımızda', path: '/hakkimizda' },
+]);
+---
+
+<BaseLayout
+  title={`Hakkımızda | ${SITE.name}`}
+  description="Altıgen Halı Yıkama tesis standartları, bitkisel şampuan yaklaşımı, kapalı kurutma sistemi ve kalite güvencesi hakkında bilgi alın."
+  canonicalPath="/hakkimizda"
+  schemas={[breadcrumbSchema]}
+>
+  <section class="bg-brand-sand/70 border-b border-brand-stone/80 py-12 md:py-16">
+    <div class="container-site max-w-5xl space-y-8">
+      <div class="max-w-3xl space-y-4">
+        <nav aria-label="Sayfa Konumu" class="text-xs text-brand-muted flex items-center gap-2">
+          <a href="/" class="hover:text-brand-ink">Ana Sayfa</a>
+          <span aria-hidden="true">/</span>
+          <span class="text-brand-ink font-medium">Hakkımızda</span>
+        </nav>
+        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-brand-teal">
+          Kurumsal Yaklaşımımız
+        </p>
+        <h1 class="text-3xl sm:text-4xl font-bold leading-tight">
+          Ev tekstilleriniz için ölçülebilir, temiz ve izlenebilir bakım standardı
+        </h1>
+        <p class="text-base sm:text-lg text-brand-slate leading-relaxed">
+          {SITE.name} olarak halı yıkamayı sıradan bir su ve deterjan işlemi değil,
+          ev içi hava kalitesini ve halı ömrünü doğrudan etkileyen kontrollü bir
+          bakım süreci olarak ele alıyoruz.
+        </p>
+      </div>
+
+      <div class="overflow-hidden rounded-2xl border border-brand-stone bg-white">
+        <OptimizedPicture
+          src={aboutStudio}
+          alt="Altıgen Halı Yıkama düzenli tekstil kontrol ve teslimat stüdyosu"
+          widths={[480, 900, 1280]}
+          sizes="(max-width: 1024px) 100vw, 960px"
+          priority={true}
+          class="w-full h-auto aspect-[16/9] object-cover"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="section-space border-b border-brand-stone/80">
+    <div class="container-site max-w-5xl space-y-10">
+      <div class="max-w-2xl space-y-2">
+        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-brand-teal">
+          Tesis Standartlarımız
+        </p>
+        <h2 class="text-2xl sm:text-3xl font-bold">
+          Her siparişte değişmeyen dört temel ilke
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+        {standards.map((item, index) => (
+          <article class="surface-card p-6 sm:p-7 space-y-2.5">
+            <span class="font-display text-xs font-bold text-brand-teal">
+              0{index + 1}
+            </span>
+            <h3 class="text-lg font-bold text-brand-ink">{item.title}</h3>
+            <p class="text-sm sm:text-base text-brand-slate leading-relaxed">
+              {item.description}
+            </p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <TestimonialsSection testimonials={testimonials} />
+
+  <section class="pb-16 md:pb-24">
+    <div class="container-site max-w-5xl">
+      <div class="rounded-2xl bg-brand-ink p-7 sm:p-10 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+        <div class="space-y-1.5 max-w-lg">
+          <h2 class="text-xl sm:text-2xl font-bold !text-white">
+            Hizmetimiz hakkında sorunuz mu var?
+          </h2>
+          <p class="text-sm text-slate-300">
+            Özel dokuma halılarınız veya servis rotalarımız hakkında doğrudan
+            ekibimizle görüşebilirsiniz.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3 shrink-0">
+          <a
+            href={whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-primary"
+          >
+            WhatsApp’tan Sorun
+          </a>
+          <a href="/iletisim" class="btn-secondary">
+            İletişim Sayfası
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

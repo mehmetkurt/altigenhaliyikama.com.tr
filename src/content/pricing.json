@@ -1,0 +1,122 @@
+[
+  {
+    "id": "makine-halisi",
+    "category": "hali",
+    "categoryLabel": "Halı Yıkama",
+    "name": "Makine Halısı",
+    "unit": "m2",
+    "unitLabel": "m²",
+    "price": 75,
+    "note": "Standart makine dokuma halılar için bitkisel şampuanlı tam otomatik yıkama.",
+    "calculable": true,
+    "order": 1
+  },
+  {
+    "id": "shaggy-hali",
+    "category": "hali",
+    "categoryLabel": "Halı Yıkama",
+    "name": "Shaggy (Uzun Tüylü) Halı",
+    "unit": "m2",
+    "unitLabel": "m²",
+    "price": 90,
+    "note": "Derin toz alma ve yüksek vakumlu durulama ile uzun havlı halılara özel bakım.",
+    "calculable": true,
+    "order": 2
+  },
+  {
+    "id": "bambu-akrilik-hali",
+    "category": "hali",
+    "categoryLabel": "Halı Yıkama",
+    "name": "Bambu / Akrilik / Viskon Halı",
+    "unit": "m2",
+    "unitLabel": "m²",
+    "price": 110,
+    "note": "Parlaklık ve yumuşaklık koruyucu düşük fırça basınçlı hassas program.",
+    "calculable": true,
+    "order": 3
+  },
+  {
+    "id": "yun-hali",
+    "category": "hali",
+    "categoryLabel": "Halı Yıkama",
+    "name": "Yün / Nepal / Yörük Halısı",
+    "unit": "m2",
+    "unitLabel": "m²",
+    "price": 125,
+    "note": "Doğal yün lifine uygun soğuk su dengesi ve renk koruyucu şampuan.",
+    "calculable": true,
+    "order": 4
+  },
+  {
+    "id": "el-dokuma-ipek",
+    "category": "hali",
+    "categoryLabel": "Halı Yıkama",
+    "name": "El Dokuma / İpek Halı",
+    "unit": "m2",
+    "unitLabel": "m²",
+    "price": 180,
+    "note": "Boya sabitleme testi sonrası tamamen elde hassas yıkama ve gölgede kurutma.",
+    "calculable": true,
+    "order": 5
+  },
+  {
+    "id": "koltuk-takimi",
+    "category": "koltuk",
+    "categoryLabel": "Koltuk Yıkama",
+    "name": "Standart Oturma Grubu (3+3+1+1)",
+    "unit": "takim",
+    "unitLabel": "Takım",
+    "price": 1400,
+    "note": "Evinizde yüksek vakumlu ekstraksiyon cihazı ve anti-alerjen solüsyonla yıkama.",
+    "calculable": true,
+    "order": 6
+  },
+  {
+    "id": "kose-koltuk",
+    "category": "koltuk",
+    "categoryLabel": "Koltuk Yıkama",
+    "name": "L / Köşe Koltuk Takımı",
+    "unit": "takim",
+    "unitLabel": "Takım",
+    "price": 1250,
+    "note": "Kumaş cinsine özel leke ön işlemi ve hızlı kuruma sağlayan yüksek emiş.",
+    "calculable": true,
+    "order": 7
+  },
+  {
+    "id": "stor-perde",
+    "category": "perde",
+    "categoryLabel": "Perde Yıkama",
+    "name": "Stor / Zebra Perde",
+    "unit": "m2",
+    "unitLabel": "m²",
+    "price": 95,
+    "note": "Ücretsiz sökme, apre koruyucu yatay yıkama ve yeniden montaj dahildir.",
+    "calculable": true,
+    "order": 8
+  },
+  {
+    "id": "tek-kisilik-yorgan",
+    "category": "yorgan",
+    "categoryLabel": "Yorgan & Battaniye",
+    "name": "Tek Kişilik Yorgan / Battaniye",
+    "unit": "adet",
+    "unitLabel": "Adet",
+    "price": 240,
+    "note": "Kişiye özel tekil makinede yıkama, tam kurutma ve koruyucu ambalaj.",
+    "calculable": true,
+    "order": 9
+  },
+  {
+    "id": "cift-kisilik-yorgan",
+    "category": "yorgan",
+    "categoryLabel": "Yorgan & Battaniye",
+    "name": "Çift Kişilik Yorgan / Battaniye",
+    "unit": "adet",
+    "unitLabel": "Adet",
+    "price": 300,
+    "note": "Yün, elyaf veya pamuk dolguya özel programda hijyenik tekil yıkama.",
+    "calculable": true,
+    "order": 10
+  }
+]
