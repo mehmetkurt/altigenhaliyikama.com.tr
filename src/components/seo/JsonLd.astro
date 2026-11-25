@@ -1,0 +1,14 @@
+---
+import type { SchemaObject } from '@utils/schema';
+
+export interface Props {
+  schemas: SchemaObject | SchemaObject[];
+}
+
+const { schemas } = Astro.props;
+const list = Array.isArray(schemas) ? schemas : [schemas];
+---
+
+{list.map((schema) => (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+))}

@@ -1,0 +1,150 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/plus-jakarta-sans";
+
+@theme {
+  /* Tipografi */
+  --font-sans: "Inter Variable", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Plus Jakarta Sans Variable", "Inter Variable", system-ui, sans-serif;
+
+  /* Marka Renk Paleti (Doğal, Hijyenik, Kurumsal) */
+  --color-brand-ink: #0f2942;
+  --color-brand-ink-soft: #1d3c5a;
+  --color-brand-teal: #0f766e;
+  --color-brand-teal-dark: #115e59;
+  --color-brand-teal-tint: #eef7f6;
+  --color-brand-sand: #f6f3ee;
+  --color-brand-paper: #fcfbf9;
+  --color-brand-stone: #e5dfd5;
+  --color-brand-slate: #475569;
+  --color-brand-muted: #64748b;
+  --color-brand-warm: #b45309;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    background-color: var(--color-brand-paper);
+    color: var(--color-brand-ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    font-family: var(--font-sans);
+    line-height: 1.65;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    color: var(--color-brand-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-teal);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  .container-site {
+    width: 100%;
+    max-width: 76rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-site {
+      padding-inline: 2rem;
+    }
+  }
+
+  .section-space {
+    padding-block: 4rem;
+  }
+
+  @media (min-width: 768px) {
+    .section-space {
+      padding-block: 6rem;
+    }
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.625rem;
+    background-color: var(--color-brand-teal);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1.2;
+    transition: background-color 180ms ease, transform 180ms ease;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-brand-teal-dark);
+  }
+
+  .btn-primary:active {
+    transform: translateY(1px);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.625rem;
+    border: 1px solid var(--color-brand-stone);
+    background-color: #ffffff;
+    color: var(--color-brand-ink);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1.2;
+    transition: border-color 180ms ease, background-color 180ms ease;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--color-brand-ink-soft);
+    background-color: var(--color-brand-sand);
+  }
+
+  .surface-card {
+    background-color: #ffffff;
+    border: 1px solid var(--color-brand-stone);
+    border-radius: 1rem;
+    transition: border-color 200ms ease, box-shadow 200ms ease;
+  }
+
+  .surface-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 12px 32px -16px rgba(15, 41, 66, 0.12);
+  }
+}

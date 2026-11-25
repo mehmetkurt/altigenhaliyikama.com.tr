@@ -1,0 +1,56 @@
+---
+export interface Props {
+  inverted?: boolean;
+}
+
+const { inverted = false } = Astro.props;
+---
+
+<span class="inline-flex items-center gap-2.5 select-none">
+  <svg
+    width="34"
+    height="34"
+    viewBox="0 0 64 64"
+    fill="none"
+    aria-hidden="true"
+    class="shrink-0"
+  >
+    <rect
+      width="64"
+      height="64"
+      rx="14"
+      fill={inverted ? '#1D3C5A' : '#0F2942'}
+    />
+    <path
+      d="M32 11L50 21.4V42.6L32 53L14 42.6V21.4L32 11Z"
+      stroke="#2DD4BF"
+      stroke-width="3.5"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M32 21L41.5 26.5V37.5L32 43L22.5 37.5V26.5L32 21Z"
+      fill="#0F766E"
+      stroke="#F6F3EE"
+      stroke-width="2"
+      stroke-linejoin="round"
+    />
+  </svg>
+  <span class="flex flex-col leading-none">
+    <span
+      class:list={[
+        'font-display text-base font-bold tracking-tight',
+        inverted ? 'text-white' : 'text-brand-ink',
+      ]}
+    >
+      Altıgen
+    </span>
+    <span
+      class:list={[
+        'text-[11px] font-medium tracking-wide uppercase mt-0.5',
+        inverted ? 'text-slate-300' : 'text-brand-teal',
+      ]}
+    >
+      Halı Yıkama
+    </span>
+  </span>
+</span>

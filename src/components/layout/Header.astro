@@ -1,0 +1,104 @@
+---
+import { SITE, getWhatsAppUrl } from '@config/site';
+import BrandLogo from '@components/ui/BrandLogo.astro';
+
+const whatsappHref = getWhatsAppUrl();
+---
+
+<header class="sticky top-0 z-40 border-b border-brand-stone/80 bg-brand-paper/95 backdrop-blur-md">
+  <div class="container-site flex h-18 items-center justify-between gap-4">
+    <a href="/" aria-label={`${SITE.name} Ana Sayfa`} class="shrink-0">
+      <BrandLogo />
+    </a>
+
+    <nav aria-label="Ana Menü" class="hidden md:flex items-center gap-7">
+      {SITE.nav.map((item) => (
+        <a
+          href={item.href}
+          class="text-sm font-medium text-brand-slate hover:text-brand-ink transition-colors"
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="hidden md:flex items-center gap-3">
+      <a
+        href={SITE.contact.phoneHref}
+        class="text-sm font-semibold text-brand-ink hover:text-brand-teal transition-colors px-2 py-2"
+      >
+        {SITE.contact.phoneDisplay}
+      </a>
+      <a
+        href={whatsappHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-primary !min-h-10 !px-4 !py-2 !text-sm"
+      >
+        Servis Çağır
+      </a>
+    </div>
+
+    <button
+      id="mobile-menu-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="mobile-nav-panel"
+      aria-label="Menüyü aç veya kapat"
+      class="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg border border-brand-stone bg-white text-brand-ink"
+    >
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16" />
+      </svg>
+    </button>
+  </div>
+
+  <nav
+    id="mobile-nav-panel"
+    aria-label="Mobil Menü"
+    class="hidden md:hidden border-t border-brand-stone bg-white"
+  >
+    <div class="container-site flex flex-col gap-1 py-4">
+      {SITE.nav.map((item) => (
+        <a
+          href={item.href}
+          class="mobile-nav-link rounded-lg px-3 py-3 text-base font-medium text-brand-ink hover:bg-brand-sand"
+        >
+          {item.label}
+        </a>
+      ))}
+      <div class="mt-3 pt-3 border-t border-brand-stone flex flex-col gap-2">
+        <a href={SITE.contact.phoneHref} class="btn-secondary w-full">
+          {SITE.contact.phoneDisplay}
+        </a>
+        <a
+          href={whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary w-full"
+        >
+          WhatsApp ile Randevu Al
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script is:inline>
+  (() => {
+    const btn = document.getElementById('mobile-menu-toggle');
+    const panel = document.getElementById('mobile-nav-panel');
+    if (!btn || !panel) return;
+
+    const toggle = (open) => {
+      const next = typeof open === 'boolean' ? open : panel.classList.contains('hidden');
+      panel.classList.toggle('hidden', !next);
+      btn.setAttribute('aria-expanded', String(next));
+    };
+
+    btn.addEventListener('click', () => toggle());
+    panel.querySelectorAll('.mobile-nav-link').forEach((link) => {
+      link.addEventListener('click', () => toggle(false));
+    });
+  })();
+</script>

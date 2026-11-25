@@ -1,0 +1,31 @@
+# Altıgen Halı Yıkama — Arama Motoru ve Yapay Zeka Tarayıcı Kuralları
+User-agent: *
+Allow: /
+
+# Arama ve LLM / AI Asistan Botları (GEO)
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# İleride eklenecek yönetim paneli ve API uçları için rezerve
+Disallow: /admin/
+Disallow: /api/
+
+Sitemap: https://altigenhaliyikama.com.tr/sitemap-index.xml

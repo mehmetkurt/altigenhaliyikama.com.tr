@@ -1,0 +1,44 @@
+[
+  {
+    "id": "teslimat-suresi",
+    "question": "Halılarım kaç günde yıkanıp teslim edilir?",
+    "answer": "Halılarınız adresinizden alındıktan sonra dokusuna göre ortalama 3 ila 4 iş günü içinde tam kurumuş ve hijyenik şekilde paketlenmiş olarak teslim edilir.",
+    "category": "teslimat",
+    "order": 1
+  },
+  {
+    "id": "ucretsiz-servis",
+    "question": "Adresten alım ve teslimat için ek servis ücreti alınıyor mu?",
+    "answer": "Hayır. Hizmet bölgelerimiz dahilinde halı, stor perde ve yorgan alım-teslimat servisimiz tamamen ücretsizdir.",
+    "category": "teslimat",
+    "order": 2
+  },
+  {
+    "id": "bitkisel-sampuan",
+    "question": "Yıkamada kullanılan şampuanlar çocuklar ve evcil hayvanlar için güvenli mi?",
+    "answer": "Evet. Ağartıcı veya ağır kimyasal kalıntı bırakmayan, pH dengeli ve bitkisel içerikli profesyonel halı şampuanları kullanıyor; bol su ile durulama yapıyoruz.",
+    "category": "yikama",
+    "order": 3
+  },
+  {
+    "id": "el-dokuma-hali",
+    "question": "El dokuma, yün ve bambu halılar zarar görmeden yıkanır mı?",
+    "answer": "Hassas halılar (el dokuma, ipek, bambu, yün) standart makine halılarından ayrılarak renk sabitleme kontrolü ve düşük fırça basıncı ile özel programda temizlenir.",
+    "category": "yikama",
+    "order": 4
+  },
+  {
+    "id": "fiyatlandirma",
+    "question": "Halı yıkama fiyatları nasıl hesaplanır?",
+    "answer": "Fiyatlandırma halının türüne (makine, shaggy, yün, el dokuma, bambu vb.) ve metrekare (m²) ölçüsüne göre şeffaf şekilde belirlenir. Teslim alım sırasında net bilgi paylaşılır.",
+    "category": "fiyat",
+    "order": 5
+  },
+  {
+    "id": "kurutma-ortami",
+    "question": "Halılar açık havada mı kurutuluyor?",
+    "answer": "Hayır. Açık havada toz, egzoz ve polen birikmesini önlemek için halılarımız güneşin yıpratıcı etkisinden uzak, nem kontrollü kapalı kurutma odalarında kurutulur.",
+    "category": "yikama",
+    "order": 6
+  }
+]

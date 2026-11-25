@@ -1,0 +1,330 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import OptimizedPicture from '@components/ui/OptimizedPicture.astro';
+import { SITE, getWhatsAppUrl } from '@config/site';
+import { getAllFaqs, getAllRegions, getAllServices } from '@services/content';
+import { buildFaqSchema } from '@utils/schema';
+
+import heroLivingRoom from '@assets/images/hero-living-room.jpg';
+import carpetCareStudio from '@assets/images/carpet-care-studio.jpg';
+
+const [services, regions, faqs] = await Promise.all([
+  getAllServices(),
+  getAllRegions(),
+  getAllFaqs(),
+]);
+
+const whatsappHref = getWhatsAppUrl();
+
+const processSteps = [
+  {
+    step: '01',
+    title: 'Ücretsiz Adresten Alım',
+    description:
+      'Randevu saatinde ekibimiz kapınıza gelir; her halı barkodlanarak kayıt altına alınır ve teslim fişi verilir.',
+  },
+  {
+    step: '02',
+    title: 'Toz Alma ve Leke Analizi',
+    description:
+      'Yıkama öncesi mekanik toz alma makinesiyle derin tozlar arındırılır, halı dokusuna ve lekelerine göre program seçilir.',
+  },
+  {
+    step: '03',
+    title: 'Bitkisel Şampuanlı Yıkama',
+    description:
+      'Dokuya özel pH dengeli bitkisel şampuanlarla tam otomatik bantta yıkanır, bol su ile durulanır ve yüksek devirde sıkılır.',
+  },
+  {
+    step: '04',
+    title: 'Kapalı Odada Kurutma ve Teslim',
+    description:
+      'Dış hava tozundan izole iklimlendirilmiş odalarda kurutulan halılar son kalite kontrol sonrası ambalajlanıp teslim edilir.',
+  },
+] as const;
+---
+
+<BaseLayout
+  title={`${SITE.name} | Bitkisel Şampuanlı Hijyenik Halı Yıkama`}
+  description={SITE.description}
+  schemas={[buildFaqSchema(faqs)]}
+>
+  <!-- Hero -->
+  <section class="bg-brand-sand/70 border-b border-brand-stone/80">
+    <div class="container-site py-12 md:py-20 lg:py-24">
+      <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-center">
+        <div class="lg:col-span-6 space-y-6">
+          <p class="text-xs font-semibold uppercase tracking-[0.14em] text-brand-teal">
+            Altıgen Halı Yıkama • Profesyonel Tekstil Bakımı
+          </p>
+
+          <h1 class="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold leading-[1.12] text-brand-ink">
+            Halılarınız için dokusunu koruyan, tam kontrollü hijyen.
+          </h1>
+
+          <p class="text-base sm:text-lg text-brand-slate leading-relaxed max-w-xl">
+            Bitkisel içerikli şampuanlar, barkodlu takip düzeni ve kapalı kurutma
+            odalarıyla halı, koltuk, stor perde ve yorganlarınızı ücretsiz servisle
+            kapınızdan alıp tertemiz teslim ediyoruz.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-3 pt-2">
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-primary"
+            >
+              WhatsApp ile Servis Çağır
+            </a>
+            <a href={SITE.contact.phoneHref} class="btn-secondary">
+              {SITE.contact.phoneDisplay}
+            </a>
+          </div>
+
+          <dl class="grid grid-cols-3 gap-4 pt-6 border-t border-brand-stone max-w-lg">
+            <div>
+              <dt class="text-xs text-brand-muted">Teslimat</dt>
+              <dd class="font-display text-base sm:text-lg font-bold text-brand-ink mt-0.5">
+                3–4 İş Günü
+              </dd>
+            </div>
+            <div>
+              <dt class="text-xs text-brand-muted">Servis</dt>
+              <dd class="font-display text-base sm:text-lg font-bold text-brand-ink mt-0.5">
+                Ücretsiz
+              </dd>
+            </div>
+            <div>
+              <dt class="text-xs text-brand-muted">Şampuan</dt>
+              <dd class="font-display text-base sm:text-lg font-bold text-brand-ink mt-0.5">
+                %100 Bitkisel
+              </dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="lg:col-span-6">
+          <div class="overflow-hidden rounded-2xl border border-brand-stone bg-white shadow-sm">
+            <OptimizedPicture
+              src={heroLivingRoom}
+              alt="Güneş ışığı alan modern salonda yeni yıkanmış hijyenik dokuma halı"
+              widths={[480, 768, 1200]}
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              priority={true}
+              class="w-full h-auto aspect-[16/10] object-cover"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hizmetler -->
+  <section id="hizmetler" class="section-space">
+    <div class="container-site">
+      <div class="max-w-2xl space-y-3 mb-10 md:mb-12">
+        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-brand-teal">
+          Hizmetlerimiz
+        </p>
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight">
+          Her tekstil türü için ayrıştırılmış bakım standardı
+        </h2>
+        <p class="text-brand-slate text-base">
+          Makine halısından el dokuma yün halıya, yerinde koltuk temizliğinden stor
+          perdeye kadar her ürün kendi dokusuna uygun teknikle temizlenir.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+        {services.map((service) => (
+          <article class="surface-card p-6 sm:p-7 flex flex-col justify-between gap-6">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between gap-3 text-xs font-medium text-brand-muted">
+                <span>{service.unitLabel}</span>
+                <span>{service.turnaroundText}</span>
+              </div>
+              <h3 class="text-xl font-bold text-brand-ink">
+                <a
+                  href={`/hizmetler/${service.slug}`}
+                  class="hover:text-brand-teal transition-colors"
+                >
+                  {service.title}
+                </a>
+              </h3>
+              <p class="text-sm sm:text-base text-brand-slate leading-relaxed">
+                {service.shortDescription}
+              </p>
+            </div>
+
+            <div class="pt-4 border-t border-brand-stone/80 flex items-center justify-between">
+              <a
+                href={`/hizmetler/${service.slug}`}
+                class="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-teal hover:text-brand-teal-dark transition-colors"
+              >
+                <span>Detayları İncele</span>
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Süreç ve Tesis Standardı -->
+  <section id="surec" class="section-space bg-brand-sand/60 border-y border-brand-stone/80">
+    <div class="container-site">
+      <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-center">
+        <div class="lg:col-span-5 space-y-5">
+          <p class="text-xs font-semibold uppercase tracking-[0.14em] text-brand-teal">
+            4 Adımda Kontrollü Temizlik
+          </p>
+          <h2 class="text-2xl sm:text-3xl font-bold leading-tight">
+            Açık havada tozlanan değil, kapalı sistemde arınan halılar
+          </h2>
+          <p class="text-brand-slate text-base leading-relaxed">
+            Yıkama kalitesini yalnızca şampuan değil, durulama ve kurutma ortamı belirler.
+            Tüm halılar tesisimizde barkodla izlenir ve dış ortam kirliliğine maruz
+            kalmadan kurutulur.
+          </p>
+
+          <div class="overflow-hidden rounded-2xl border border-brand-stone bg-white pt-0">
+            <OptimizedPicture
+              src={carpetCareStudio}
+              alt="Doğal bitkisel köpük ve temiz katlanmış dokuma halı bakım stüdyosu"
+              widths={[400, 720, 1000]}
+              sizes="(max-width: 1024px) 100vw, 42vw"
+              priority={false}
+              class="w-full h-auto aspect-[4/3] object-cover"
+            />
+          </div>
+        </div>
+
+        <ol class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {processSteps.map((item) => (
+            <li class="bg-white border border-brand-stone rounded-2xl p-6 space-y-2.5">
+              <span class="font-display text-sm font-bold text-brand-teal">
+                {item.step}
+              </span>
+              <h3 class="text-lg font-bold text-brand-ink">{item.title}</h3>
+              <p class="text-sm text-brand-slate leading-relaxed">
+                {item.description}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hizmet Bölgeleri -->
+  <section id="bolgeler" class="section-space">
+    <div class="container-site">
+      <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-8">
+        <div class="space-y-2 max-w-xl">
+          <p class="text-xs font-semibold uppercase tracking-[0.14em] text-brand-teal">
+            Ücretsiz Servis Ağı
+          </p>
+          <h2 class="text-2xl sm:text-3xl font-bold">Hizmet Bölgelerimiz</h2>
+          <p class="text-brand-slate text-base">
+            Planlı servis rotalarımızla kapıdan teslim alım ve teslimat yapıyoruz.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {regions.map((region) => (
+          <article class="surface-card p-6 space-y-3">
+            <p class="text-xs font-medium text-brand-muted">{region.city}</p>
+            <h3 class="text-lg font-bold text-brand-ink">
+              <a
+                href={`/bolgeler/${region.slug}`}
+                class="hover:text-brand-teal transition-colors"
+              >
+                {region.name} Halı Yıkama
+              </a>
+            </h3>
+            <p class="text-sm text-brand-slate leading-relaxed">
+              {region.summary}
+            </p>
+            <a
+              href={`/bolgeler/${region.slug}`}
+              class="inline-flex items-center gap-1.5 pt-2 text-sm font-semibold text-brand-teal hover:text-brand-teal-dark"
+            >
+              <span>Bölge ve Mahalle Detayları</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Sıkça Sorulan Sorular (Sıfır JS Native Details) -->
+  <section id="sss" class="section-space bg-brand-sand/50 border-t border-brand-stone/80">
+    <div class="container-site max-w-4xl">
+      <div class="space-y-2 mb-10">
+        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-brand-teal">
+          Sıkça Sorulan Sorular
+        </p>
+        <h2 class="text-2xl sm:text-3xl font-bold">
+          Yıkama süreci hakkında merak edilenler
+        </h2>
+      </div>
+
+      <div class="divide-y divide-brand-stone border-y border-brand-stone bg-white rounded-2xl px-6">
+        {faqs.map((faq) => (
+          <details class="group py-5">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-base sm:text-lg font-semibold text-brand-ink">
+              <span>{faq.question}</span>
+              <span
+                aria-hidden="true"
+                class="shrink-0 text-brand-teal transition-transform duration-200 group-open:rotate-45 text-xl leading-none"
+              >
+                +
+              </span>
+            </summary>
+            <p class="pt-3 pr-6 text-sm sm:text-base text-brand-slate leading-relaxed">
+              {faq.answer}
+            </p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Son Çağrı Bandı -->
+  <section class="section-space">
+    <div class="container-site">
+      <div class="rounded-2xl bg-brand-ink px-6 py-10 sm:px-12 sm:py-14 text-white flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+        <div class="space-y-2 max-w-xl">
+          <h2 class="text-2xl sm:text-3xl font-bold !text-white">
+            Ücretsiz servis randevunuzu hemen oluşturun
+          </h2>
+          <p class="text-slate-300 text-sm sm:text-base">
+            Telefon veya WhatsApp üzerinden adresinizi iletin, ekibimiz planlı servis
+            saatinde halılarınızı kapınızdan teslim alsın.
+          </p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3 shrink-0">
+          <a
+            href={whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-primary"
+          >
+            WhatsApp ile Yazın
+          </a>
+          <a
+            href={SITE.contact.phoneHref}
+            class="inline-flex items-center justify-center min-h-12 px-6 py-3 rounded-[0.625rem] border border-slate-600 text-white font-semibold text-sm hover:bg-brand-ink-soft transition-colors"
+          >
+            {SITE.contact.phoneDisplay}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

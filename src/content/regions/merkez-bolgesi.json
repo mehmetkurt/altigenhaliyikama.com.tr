@@ -1,0 +1,16 @@
+{
+  "slug": "merkez-bolgesi",
+  "name": "Merkez Bölgesi",
+  "city": "İstanbul",
+  "summary": "Merkez bölgesindeki tüm mahallelere haftanın 6 günü planlı ücretsiz servis araçlarımızla halı, koltuk, stor perde ve yorgan yıkama hizmeti veriyoruz.",
+  "deliveryInfo": "Aynı gün veya ertesi gün kapıdan teslim alım, ortalama 3–4 iş günü içinde teslimat.",
+  "neighborhoods": [
+    "Merkez Mahallesi",
+    "Cumhuriyet Mahallesi",
+    "Yenişehir Mahallesi",
+    "Atatürk Mahallesi"
+  ],
+  "order": 1,
+  "seoTitle": "Merkez Bölgesi Halı Yıkama | Altıgen Halı Yıkama",
+  "seoDescription": "Merkez bölgesi ve çevre mahallelerde ücretsiz servisli, bitkisel şampuanlı profesyonel halı yıkama hizmeti."
+}

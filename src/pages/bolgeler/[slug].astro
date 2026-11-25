@@ -1,0 +1,112 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { SITE, getWhatsAppUrl } from '@config/site';
+import { getAllRegions, getAllServices, type RegionItem } from '@services/content';
+import { buildBreadcrumbSchema } from '@utils/schema';
+
+export async function getStaticPaths() {
+  const regions = await getAllRegions();
+  return regions.map((region) => ({
+    params: { slug: region.slug },
+    props: { region },
+  }));
+}
+
+interface Props {
+  region: RegionItem;
+}
+
+const { region } = Astro.props;
+const services = await getAllServices();
+const whatsappHref = getWhatsAppUrl(
+  `Merhaba, ${region.name} bölgesinden halı yıkama servisi çağırmak istiyorum.`
+);
+
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: 'Ana Sayfa', path: '/' },
+  { name: 'Hizmet Bölgeleri', path: '/#bolgeler' },
+  { name: region.name, path: `/bolgeler/${region.slug}` },
+]);
+---
+
+<BaseLayout
+  title={region.seoTitle}
+  description={region.seoDescription}
+  canonicalPath={`/bolgeler/${region.slug}`}
+  schemas={[breadcrumbSchema]}
+>
+  <article class="section-space">
+    <div class="container-site max-w-4xl space-y-10">
+      <nav aria-label="Sayfa Konumu" class="text-xs text-brand-muted flex items-center gap-2">
+        <a href="/" class="hover:text-brand-ink">Ana Sayfa</a>
+        <span aria-hidden="true">/</span>
+        <a href="/#bolgeler" class="hover:text-brand-ink">Hizmet Bölgeleri</a>
+        <span aria-hidden="true">/</span>
+        <span class="text-brand-ink font-medium">{region.name}</span>
+      </nav>
+
+      <header class="space-y-4">
+        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-brand-teal">
+          {region.city} • Ücretsiz Adres Servisi
+        </p>
+        <h1 class="text-3xl sm:text-4xl font-bold leading-tight">
+          {region.name} Halı Yıkama Hizmeti
+        </h1>
+        <p class="text-base sm:text-lg text-brand-slate leading-relaxed">
+          {region.summary}
+        </p>
+        <p class="text-sm font-medium text-brand-ink bg-brand-teal-tint inline-block px-4 py-2 rounded-lg">
+          {region.deliveryInfo}
+        </p>
+      </header>
+
+      <section class="surface-card p-6 space-y-4">
+        <h2 class="text-lg font-bold">Servis Verilen Mahalleler</h2>
+        <ul class="flex flex-wrap gap-2">
+          {region.neighborhoods.map((neighborhood) => (
+            <li class="rounded-lg border border-brand-stone bg-brand-paper px-3.5 py-1.5 text-sm text-brand-ink">
+              {neighborhood}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-xl font-bold">{region.name} Bölgesinde Sunduğumuz Hizmetler</h2>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {services.map((service) => (
+            <a
+              href={`/hizmetler/${service.slug}`}
+              class="surface-card p-5 block space-y-1.5"
+            >
+              <h3 class="font-bold text-brand-ink">{service.title}</h3>
+              <p class="text-sm text-brand-slate">{service.shortDescription}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <div class="rounded-2xl bg-brand-sand border border-brand-stone p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h2 class="text-lg font-bold">{region.name} servis aracı çağırın</h2>
+          <p class="text-sm text-brand-slate mt-1">
+            Adresinizi paylaşın, en yakın servis rotamıza dahil edelim.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3 shrink-0">
+          <a
+            href={whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-primary"
+          >
+            WhatsApp ile Randevu
+          </a>
+          <a href={SITE.contact.phoneHref} class="btn-secondary">
+            {SITE.contact.phoneDisplay}
+          </a>
+        </div>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
